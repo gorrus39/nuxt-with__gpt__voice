@@ -2,6 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: ["@nuxt/icon", "@nuxt/ui", "@nuxt/test-utils", "@nuxthub/core"],
+  modules: [
+    "@nuxt/icon",
+    "@nuxt/ui",
+    "@nuxt/test-utils",
+    // "@nuxthub/core"
+  ],
   css: ["~/assets/css/main.css"],
+  routeRules: { "/": { ssr: false } },
 });
