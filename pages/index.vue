@@ -27,66 +27,83 @@ const handlePost = async () => {
 </script>
 
 <template>
-  <div class="flex justify-center bg-green-200">
-    <div class="p-8 flex h-[100vh] flex-col gap-2 w-96 bg-white items-center">
-      <u-button-group class="self-start">
+  <div class="flex gap-8 bg-primary-900 h-96 w-4/5 px-16 py-8 rounded">
+    <div class="flex flex-col gap-18">
+      <div class="flex w-max flex-col gap-6 text-white me-8">
+        <b> <p class="text-3xl">Hi there!</p></b>
+        <b> <p class="text-4xl">What whould you like to know?</p></b>
+        <p class="text-2xl text-primary-300">
+          Use one of the most common prompts bolow
+          <br />
+          or ask your own question
+        </p>
+      </div>
+
+      <u-button-group class="self-start" size="xl">
         <u-input
           :disabled="loading"
           v-model="input"
-          placeholder=""
-          :ui="{ base: 'peer pe-9', trailing: 'pe-0' }"
+          :loading="voiceLintening"
+          leading
+          :ui="{
+            base: 'w-124 pe-8 bg-inherit text-primary-300',
+            trailing: 'pe-1',
+            leading: 'cursor-pointer',
+          }"
+          placeholder="Ask whatever you want"
         >
-          <label
-            class="pointer-events-none absolute left-1 -top-2.5 text-highlighted text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-highlighted peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-dimmed peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal"
-          >
-            <span class="inline-flex bg-default px-1"
-              >Ask whatever you want</span
-            >
-          </label>
-
-          <template v-if="input?.length" #trailing>
+          <template v-if="input?.length > 0" #trailing>
             <UButton
               color="neutral"
               variant="link"
               size="xl"
               icon="i-lucide-circle-x"
-              aria-label="Clear input"
               @click="input = ''"
               :disabled="loading"
               class="cursor-pointer"
             />
           </template>
+          <template #leading>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="xl"
+              :disabled="loading"
+              :icon="voiceLintening ? 'i-lucide-repeat-2' : 'i-ri:mic-line'"
+              :class="{ 'animate-spin': voiceLintening }"
+              @click="voicer.start()"
+              class="cursor-pointer"
+            />
+          </template>
         </u-input>
 
-        <UButton
-          :loading="voiceLintening"
-          :disabled="loading"
-          class="cursor-pointer"
+        <u-button
+          :loading="loading"
+          :disabled="input.length === 0"
+          class="cursor-pointer bg-primary-400"
           color="neutral"
           variant="subtle"
-          icon="i-ri:mic-line"
-          @click="voicer.start()"
+          icon="i-mdi:arrow-right-bold-outline"
+          @click="handlePost"
         />
       </u-button-group>
-
-      <u-button
-        icon="i-fa-solid:arrow-alt-circle-up"
-        label="Post"
-        :loading
-        :disabled="input.length === 0"
-        @click="handlePost"
-        block
-      />
-
-      <hr class="w-full" />
-
-      <UAlert
-        v-if="response"
-        title="Answer"
-        :description="response"
-        close
-        @update:open="response = null"
-      />
     </div>
+
+    <u-alert
+      v-if="response"
+      class="break-words"
+      title="Answer"
+      :description="response"
+      close
+    >
+      <template #close>
+        <u-icon
+          class="cursor-pointer hover:opacity-50"
+          name="i-lucide-circle-x"
+          @click="response = null"
+        >
+        </u-icon>
+      </template>
+    </u-alert>
   </div>
 </template>
