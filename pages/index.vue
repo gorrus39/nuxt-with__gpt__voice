@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { SpeechRecognition } from "dom-speech-recognition";
-
 const toast = useToast();
 const input = ref("");
 const voiceLintening = ref(false);
@@ -27,12 +25,18 @@ const handlePost = async () => {
 </script>
 
 <template>
-  <div class="flex gap-8 bg-primary-900 h-96 w-4/5 px-16 py-8 rounded">
-    <div class="flex flex-col gap-18">
+  <div
+    class="flex flex-col xl:flex-row gap-8 bg-primary-900 xl:h-96 h-[100vh] w-full md:w-4/5 md:px-16 px-4 py-8 rounded"
+  >
+    <div class="flex flex-col flex-1 gap-18">
       <div class="flex w-max flex-col gap-6 text-white me-8">
-        <b> <p class="text-3xl">Hi there!</p></b>
-        <b> <p class="text-4xl">What whould you like to know?</p></b>
-        <p class="text-2xl text-primary-300">
+        <b> <p class="word-break text-lg md:text-3xl">Hi there!</p></b>
+        <b>
+          <p class="word-break text-lg md:text-4xl">
+            What whould you like to know?
+          </p></b
+        >
+        <p class="text-sm md:text-2xl text-primary-300">
           Use one of the most common prompts bolow
           <br />
           or ask your own question
@@ -46,7 +50,7 @@ const handlePost = async () => {
           :loading="voiceLintening"
           leading
           :ui="{
-            base: 'w-124 pe-8 bg-inherit text-primary-300',
+            base: 'w-64 lg:w-124 pe-8 bg-inherit text-primary-300',
             trailing: 'pe-1',
             leading: 'cursor-pointer',
           }"
